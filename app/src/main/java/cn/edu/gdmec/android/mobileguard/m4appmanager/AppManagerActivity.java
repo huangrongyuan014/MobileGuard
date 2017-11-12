@@ -1,5 +1,6 @@
 package cn.edu.gdmec.android.mobileguard.m4appmanager;
 
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -30,45 +31,43 @@ import cn.edu.gdmec.android.mobileguard.m4appmanager.utils.AppInfoParser;
  */
 
 public class AppManagerActivity extends AppCompatActivity implements View.OnClickListener{
-
      private TextView mPhoneMemoryTV;
      private TextView mSDMemoryTV;
      private ListView mListView;
      private List<AppInfo> appInfos;
      private List<AppInfo> userAppInfos = new ArrayList<AppInfo>();
      private List<AppInfo> systemAppInfos = new ArrayList<AppInfo>();
-     private AppManagerAdapter adapter;
+    private AppManagerAdapter adapter;
      private TextView mAppNumTV;
+     private UninstallRececiver receciver;
 
-             private Handler mHandler = new Handler() {
-                 @Override
-                 public void handleMessage(Message msg) {
-
-                     switch (msg.what) {
-                         case 10:
-                             if (adapter == null) {
-                                 adapter = new AppManagerAdapter(userAppInfos, systemAppInfos, AppManagerActivity.this);
-                             }
-
-                             mListView.setAdapter(adapter);
-                             adapter.notifyDataSetChanged();
-                             break;
-                         case 15:
-                             adapter.notifyDataSetChanged();
-                             break;
-                     }
-                 }
-             };
-    private void initData(){
+             private Handler mHandler = new Handler(){
+         @Override
+         public void handleMessage(Message msg) {
+                        switch (msg.what){
+                                case 10:
+                                        if(adapter == null){
+                                                adapter = new AppManagerAdapter(userAppInfos,systemAppInfos,AppManagerActivity.this);
+                                            }
+                                        mListView.setAdapter(adapter);
+                                        adapter.notifyDataSetChanged();
+                                        break;
+                                case 15:
+                                        adapter.notifyDataSetChanged();
+                                        break;
+                            }
+                    }
+     };
+     private void initData(){
                 appInfos = new ArrayList<AppInfo>();
                 new Thread(){
-             public void run() {
+             public void run(){
                                 appInfos.clear();
                                 userAppInfos.clear();
                                 systemAppInfos.clear();
                                 appInfos.addAll(AppInfoParser.getAppInfos(AppManagerActivity.this));
-                                for (AppInfo appInfo : appInfos){
-                                        if (appInfo.isUserApp){
+                               for(AppInfo appInfo : appInfos){
+                                        if(appInfo.isUserApp){
                                                 userAppInfos.add(appInfo);
                                             }else{
                                                 systemAppInfos.add(appInfo);
@@ -76,110 +75,104 @@ public class AppManagerActivity extends AppCompatActivity implements View.OnClic
                                     }
                                 mHandler.sendEmptyMessage(10);
                             };
-
-                 }.start();
+         }.start();
             }
-           class UninstallRececiver extends BroadcastReceiver{
-               public void onReceiver(Context context,Intent intent){
-                   initData();
-               }
-           }
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_app_manager);
-        receciver = new UninstallRececiver();
-        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_PACKAGE_REMOVED);
-        intentFilter.addDataScheme("package");
-        registerReceiver(receciver,intentFilter);
-        initView();
-}
-    private void initView(){
-                findViewById(R.id.rl_titlebar).setBackgroundColor(
-                        getResources().getColor(R.color.bright_purple));
-                ImageView mLeftImgv = (ImageView)findViewById(R.id.imgv_leftbtn);
-                ((TextView)findViewById(R.id.tv_title)).setText("软件管家");
+     class UninstallRececiver extends BroadcastReceiver {
+         @Override
+         public void onReceive(Context context, Intent intent) {
+                        initData();
+                    }
+     }
 
+             @Override
+     protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                setContentView(R.layout.activity_app_manager);
+                receciver = new UninstallRececiver();
+                IntentFilter intentFilter = new IntentFilter(Intent.ACTION_PACKAGE_REMOVED);
+                intentFilter.addDataScheme("package");
+                registerReceiver(receciver,intentFilter);
+                initView();
+            }
+     private void initView(){
+                findViewById(R.id.rl_titlebar).setBackgroundColor(getResources().getColor(R.color.bright_yellow));
+                ImageView mLeftImgv = (ImageView) findViewById(R.id.imgv_leftbtn);
+                ((TextView) findViewById(R.id.tv_title)).setText("软件管家");
                 mLeftImgv.setOnClickListener(this);
                 mLeftImgv.setImageResource(R.drawable.back);
-                mPhoneMemoryTV = (TextView)findViewById(R.id.tv_phonememory_appmanager);
-                mSDMemoryTV = (TextView)findViewById(R.id.tv_sdmemory_appmanager);
-                mAppNumTV = (TextView)findViewById(R.id.tv_appnumber);
+                mPhoneMemoryTV = (TextView) findViewById(R.id.tv_phonememory_appmanager);
+                mSDMemoryTV = (TextView) findViewById(R.id.tv_sdmemory_appmanager);
+                mAppNumTV = (TextView) findViewById(R.id.tv_appnumber);
                 mListView = (ListView) findViewById(R.id.lv_appmanager);
-                initData();
                 getMemoryFromPhone();
+                initData();
                 initListener();
+            }
 
-    }
-    @Override
+             @Override
      public void onClick(View view) {
                 switch (view.getId()){
-                        case R.id.imgv_leftbtn:
+                       case R.id.imgv_leftbtn:
                                 finish();
                                 break;
-                    }
-           }
-
-             private void getMemoryFromPhone(){
-                long avail_sd = Environment.getExternalStorageDirectory()
-                        .getFreeSpace();
+                   }
+            }
+     private void getMemoryFromPhone(){
+                long avail_sd = Environment.getExternalStorageDirectory().getFreeSpace();
                 long avail_rom = Environment.getDataDirectory().getFreeSpace();
                 String str_avail_sd = Formatter.formatFileSize(this,avail_sd);
                 String str_avail_rom = Formatter.formatFileSize(this,avail_rom);
-                mPhoneMemoryTV.setText("剩余手机内存："+str_avail_rom);
+                mPhoneMemoryTV.setText("剩余手机内存：" + str_avail_rom);
                 mSDMemoryTV.setText("剩余SD卡内存："+str_avail_sd);
             }
-
-             private void initListener(){
+     private void initListener(){
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
              @Override
-             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
-                               if(adapter != null){
-                                         new Thread() {
-                         @Override
-                         public void run() {
+             public void onItemClick(AdapterView<?> adapterView, View view,final int i, long l) {
+                                if(adapter != null){
+                                        new Thread(){
+                         public void run(){
                                                         AppInfo mappInfo = (AppInfo) adapter.getItem(i);
                                                         boolean flag = mappInfo.isSelected;
-                                                        for (AppInfo appInfo : userAppInfos){
+                                                        for(AppInfo appInfo : userAppInfos){
                                                                 appInfo.isSelected = false;
                                                             }
-                                                        for (AppInfo appInfo : systemAppInfos){
+                                                        for(AppInfo appInfo : systemAppInfos){
                                                                 appInfo.isSelected = false;
                                                             }
-                                                       if (mappInfo != null){
-                                                               if (flag){
+                                                        if(mappInfo != null){
+                                                                if(flag){
                                                                         mappInfo.isSelected = false;
-                                                                   }else{
-                                                                       mappInfo.isSelected = true;
+                                                                    }else{
+                                                                        mappInfo.isSelected = true;
                                                                     }
-                                                               mHandler.sendEmptyMessage(15);
+                                                                mHandler.sendEmptyMessage(15);
                                                             }
                                                     };
-                         }.start();
+                     }.start();
+                                    }
+                           }
+         });
+                mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+             @Override
+             public void onScrollStateChanged(AbsListView absListView, int i) {
+                            }
+
+                     @Override
+             public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+                                if(i >= userAppInfos.size() + 1){
+                                        mAppNumTV.setText("系统应用："+systemAppInfos.size()+"个");
+                                    }else{
+                                        mAppNumTV.setText("用户应用："+userAppInfos.size()+"个");
                                     }
                             }
          });
-               mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int i) {
+            }
 
-                                    }
-
-                    @Override
-            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-                                if (i >= userAppInfos.size()+1){
-                                        mAppNumTV.setText("系统程序"+systemAppInfos.size()+1);
-                                    }else{
-                                        mAppNumTV.setText("用户程序"+userAppInfos.size()+1);
-                                    }
-
-                                   }
-        });
-           }
-    protected void onDestroy(){
-        unregisterReceiver(receciver);
-        receciver = null;
-        super.onDestroy();
-    }
-
-}
+             @Override
+     protected void onDestroy() {
+                unregisterReceiver(receciver);
+                receciver = null;
+                super.onDestroy();
+            }
+ }

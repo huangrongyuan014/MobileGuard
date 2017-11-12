@@ -21,6 +21,7 @@ import cn.edu.gdmec.android.mobileguard.m2theftguard.dialog.SetUpPasswordDialog;
 import cn.edu.gdmec.android.mobileguard.m2theftguard.receiver.MyDeviceAdminReceiver;
 import cn.edu.gdmec.android.mobileguard.m2theftguard.utils.MD5Utils;
 import cn.edu.gdmec.android.mobileguard.m3communicationguard.SecurityPhoneActivity;
+import cn.edu.gdmec.android.mobileguard.m4appmanager.AppManagerActivity;
 
 /**
  * Created by asus-pc on 2017/11/7.
@@ -42,7 +43,6 @@ public class HomeActivity extends AppCompatActivity {
         gv_home.setAdapter(new HomeAdapter(HomeActivity.this));
         gv_home.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l){
-                System.out.print(i);
                 switch (i){
                     case 0:
                         if (isSetUpPassword()){
@@ -54,6 +54,9 @@ public class HomeActivity extends AppCompatActivity {
                     case 1:
                         startActivity(SecurityPhoneActivity.class);
                                                break;
+                    case 2:
+                                                startActivity(AppManagerActivity.class);
+                                                break;
                 }
             }
         });

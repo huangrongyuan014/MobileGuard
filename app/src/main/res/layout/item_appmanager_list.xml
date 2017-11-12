@@ -14,7 +14,7 @@
                 android:layout_height="50dp"
                 />
             <TextView
-                android:id="@+id/tv_appSize"
+                android:id="@+id/tv_appsize"
                 style="@style/textview16sp"
                 android:layout_marginRight="10dp"
                 android:layout_alignParentRight="true"

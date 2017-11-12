@@ -86,7 +86,7 @@ public class AppManagerAdapter extends BaseAdapter {
                             view = View.inflate(context, R.layout.item_appmanager_list,null);
                         viewHolder.mAppIconImgv = (ImageView)view.findViewById(R.id.imgv_appicon);
                         viewHolder.mAppLocationTv = (TextView)view.findViewById(R.id.tv_appisroom);
-                        viewHolder.mAppSizeTV = (TextView)view.findViewById(R.id.tv_appSize);
+                        viewHolder.mAppSizeTV = (TextView)view.findViewById(R.id.tv_appsize);
                         viewHolder.mAppNameTV = (TextView)view.findViewById(R.id.tv_appname);
                         viewHolder.mLuanchAppTv = (TextView)view.findViewById(R.id.tv_launch_app);
                         viewHolder.mSettingAppTV = (TextView)view.findViewById(R.id.tv_setting_app);

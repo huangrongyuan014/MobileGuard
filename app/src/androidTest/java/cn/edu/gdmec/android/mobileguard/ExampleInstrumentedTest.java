@@ -331,7 +331,9 @@ public class ExampleInstrumentedTest {
     }
     @Test
     public void t12CommunicationGuardWithoutTitleBar() throws Exception {
-        UiObject result = mDevice.findObject(new UiSelector().textStartsWith("通讯卫士"));
+        result = mDevice.findObject(new UiSelector().textStartsWith("激活此设备管理员"));
+        result.clickAndWaitForNewWindow();
+        result = mDevice.findObject(new UiSelector().textStartsWith("通讯卫士"));
         result.clickAndWaitForNewWindow();
         result = mDevice.findObject(new UiSelector().textStartsWith("MobileGuard"));
         if(result.exists()){
@@ -388,6 +390,73 @@ public class ExampleInstrumentedTest {
         str1 = result.getText();
         if (str1.equals(str)){
             throw new Exception("Blacklist can't be scrolled to load more items.");
+        }
+    }
+    @Test
+    public void t16AppManager() throws Exception {
+        result = mDevice.findObject(new UiSelector().textStartsWith("激活此设备管理员"));
+        result.clickAndWaitForNewWindow();
+        result = mDevice.findObject(new UiSelector().textStartsWith("软件管家"));
+        result.clickAndWaitForNewWindow();
+        result = mDevice.findObject(new UiSelector().textStartsWith("App1"));
+        result.clickAndWaitForNewWindow();
+        result = mDevice.findObject(new UiSelector().textStartsWith("启动"));
+        result.clickAndWaitForNewWindow();
+        result = mDevice.findObject(new UiSelector().textStartsWith("Hello World!"));
+        if(!result.exists()){
+            throw new Exception("AppManager can't startup app .");
+        }
+    }
+    @Test
+    public void t17AppManagerAboutButton() throws Exception {
+        result = mDevice.findObject(new UiSelector().textStartsWith("软件管家"));
+        result.clickAndWaitForNewWindow();
+        result = mDevice.findObject(new UiSelector().textStartsWith("App1"));
+        result.clickAndWaitForNewWindow();
+        result = mDevice.findObject(new UiSelector().textStartsWith("关于"));
+        if(!result.exists()){
+            throw new Exception("Can't find about button in AppManager.");
+        }
+    }
+
+    @Test
+    public void t18AppManagerAboutVersion() throws Exception {
+        result = mDevice.findObject(new UiSelector().textStartsWith("软件管家"));
+        result.clickAndWaitForNewWindow();
+        result = mDevice.findObject(new UiSelector().textStartsWith("App1"));
+        result.clickAndWaitForNewWindow();
+        result = mDevice.findObject(new UiSelector().textStartsWith("关于"));
+        result.clickAndWaitForNewWindow();
+        result = mDevice.findObject(new UiSelector().textContains("1.3"));
+        if(!result.exists()){
+            throw new Exception("Can't get app version.");
+        }
+    }
+
+    @Test
+    public void t19AppManagerAboutVersion() throws Exception {
+        result = mDevice.findObject(new UiSelector().textStartsWith("软件管家"));
+        result.clickAndWaitForNewWindow();
+        result = mDevice.findObject(new UiSelector().textStartsWith("App1"));
+        result.clickAndWaitForNewWindow();
+        result = mDevice.findObject(new UiSelector().textStartsWith("关于"));
+        result.clickAndWaitForNewWindow();
+        result = mDevice.findObject(new UiSelector().textContains("CN=York"));
+        if(!result.exists()){
+            throw new Exception("Can't get app signature issuer message.");
+        }
+    }
+    @Test
+    public void t20AppManagerAboutVersion() throws Exception {
+        result = mDevice.findObject(new UiSelector().textStartsWith("软件管家"));
+        result.clickAndWaitForNewWindow();
+        result = mDevice.findObject(new UiSelector().textStartsWith("App1"));
+        result.clickAndWaitForNewWindow();
+        result = mDevice.findObject(new UiSelector().textStartsWith("关于"));
+        result.clickAndWaitForNewWindow();
+        result = mDevice.findObject(new UiSelector().textContains("android.permission"));
+        if(!result.exists()){
+            throw new Exception("Can't get app request permissions.");
         }
     }
 }

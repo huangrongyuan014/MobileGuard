@@ -2,10 +2,15 @@ package cn.edu.gdmec.android.mobileguard;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SdkSuppress;
+import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 import java.util.List;
 import java.util.Random;
@@ -16,7 +21,9 @@ import cn.edu.gdmec.android.mobileguard.m3communicationguard.entity.BlackContact
 /**
  * Created by asus-pc on 2017/11/11.
  */
-
+@RunWith(AndroidJUnit4.class)
+@SdkSuppress(minSdkVersion = 18)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BlackNumberDaoTest {
     private Context context;
     private BlackNumberDao dao;

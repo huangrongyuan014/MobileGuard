@@ -7,7 +7,12 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
-
+import android.app.ProgressDialog;
+import android.net.Uri;
+import android.webkit.MimeTypeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import static android.content.Context.DOWNLOAD_SERVICE;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -21,9 +26,12 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import cn.edu.gdmec.android.mobileguard.R;
-import cn.edu.gdmec.android.mobileguard.m1home.HomeActivity;
+//import cn.edu.gdmec.android.mobileguard.m1home.HomeActivity;
 import cn.edu.gdmec.android.mobileguard.m1home.entity.VersionEntity;
-
+import android.app.DownloadManager;
+ import android.content.BroadcastReceiver;
+ import android.content.Context;
+import android.content.IntentFilter;
 /**
  * Created by asus-pc on 2017/11/7.
  */
@@ -32,7 +40,12 @@ public class VersionUpdateUtils {
     private String mVersion;
     private Activity context;
     private VersionEntity versionEntity;
-
+//广播者
+    private BroadcastReceiver broadcastReceiver;
+    private Class<?> nextActivity;
+     //回调
+             private DownloadCallback downloadCallback;
+    private long downloadId;
     private  static final int MESSAGE_IO_ERROR = 102;
     private  static final int MESSAGE_JSON_ERROR = 103;
     private  static final int MESSAGE_SHOW_DIALOG = 104;
@@ -43,32 +56,44 @@ public class VersionUpdateUtils {
             switch (msg.what){
                 case MESSAGE_IO_ERROR:
                     Toast.makeText(context, "IO错误", Toast.LENGTH_LONG).show();
+                    enterHome();
                     break;
                 case MESSAGE_JSON_ERROR:
                     Toast.makeText(context, "JSON解析错误", Toast.LENGTH_LONG).show();
+                    enterHome();
                     break;
                 case MESSAGE_SHOW_DIALOG:
                     showUpdateDialog(versionEntity);
                     break;
                 case MESSAGE_ENTERHOME:
-                    Intent intent = new Intent(context, HomeActivity.class);
-                    context.startActivity(intent);
-                    context.finish();
+                    //Intent intent = new Intent(context, nextActivity);
+                                       //context.startActivity(intent);
+                            +                    //context.finish();
+                                                        if(nextActivity!=null) {
+                                            Intent intent = new Intent(context, nextActivity);
+                                            context.startActivity(intent);
+                                            context.finish();
+                                        }
                     break;
             }
         }
     };
-    public VersionUpdateUtils(String mVersion,Activity context){
+    public VersionUpdateUtils(String mVersion, Activity context,DownloadCallback downloadCallback,Class<?> nextActivity) {
         this.mVersion = mVersion;
         this.context = context;
+        this.nextActivity = nextActivity;
+        //构造参数
+                this.downloadCallback = downloadCallback;
     }
 
-    public void getCloudVersion(){
+    public void getCloudVersion(String url){
         try{
             HttpClient httpClient = new DecompressingHttpClient();
             HttpConnectionParams.setConnectionTimeout(httpClient.getParams(),500);
             HttpConnectionParams.setSoTimeout(httpClient.getParams(),500);
-            HttpGet httpGet = new HttpGet("http://android2017.duapp.com/updateinfo.html");
+            //"http://android2017.duapp.com/updateinfo.html"
+                        //新改动
+                                HttpGet httpGet = new HttpGet(url);
             HttpResponse execute = httpClient.execute(httpGet);
             if(execute.getStatusLine().getStatusCode()==200){
                 HttpEntity httpEntity = execute.getEntity();
@@ -100,6 +125,7 @@ public class VersionUpdateUtils {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 downloadNewApk(versionEntity.apkurl);
+                enterHome();
             }
         });
         builder.setNegativeButton("暂不升级",new DialogInterface.OnClickListener(){
@@ -112,10 +138,51 @@ public class VersionUpdateUtils {
         builder.show();
     }
     private void enterHome(){
-        handle.sendEmptyMessage(MESSAGE_ENTERHOME);
+        handler.sendEmptyMessageDelayed(MESSAGE_ENTERHOME,2000);
     }
     private void downloadNewApk(String apkurl){
         DownloadUtils downloadUtils = new DownloadUtils();
-        downloadUtils.downloadApk(apkurl,"mobileguard.apk",context);
+        String filename = "downloadfile";
+                String suffixes="avi|mpeg|3gp|mp3|mp4|wav|jpeg|gif|jpg|png|apk|exe|pdf|rar|zip|docx|doc|apk|db";
+                Pattern pat= Pattern.compile("[\\w]+[\\.]("+suffixes+")");
+                Matcher mc=pat.matcher(apkurl);
+                while(mc.find()){
+                        filename = mc.group();
+                    }
+                downapk(apkurl, filename, context);
+        //antivirus.db
+        //downloadUtils.downloadApk(apkurl,"mobileguard.apk",context);
     }
+    public void downapk(String url,String targetFile,Context context){
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+                request.setAllowedOverRoaming(false);
+                MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+                String mimeString = mimeTypeMap.getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(url));
+                request.setMimeType(mimeString);
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE);
+                request.setVisibleInDownloadsUi(true);
+                request.setDestinationInExternalPublicDir("/download/", targetFile);
+                DownloadManager downloadManager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
+                downloadId = downloadManager.enqueue(request);
+                listener(downloadId,targetFile);
+            }
+    private void listener(final long Id,final String filename) {
+               IntentFilter intentFilter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+                broadcastReceiver = new BroadcastReceiver() {
+             @Override
+             public void onReceive(Context context, Intent intent) {
+                                long ID = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+                                if (ID == Id) {
+                                        Toast.makeText(context.getApplicationContext(), "下载编号:" + Id +"的"+filename+" 下载完成!", Toast.LENGTH_LONG).show();
+                                    }
+                                context.unregisterReceiver(broadcastReceiver);
+                                downloadCallback.afterDownload(filename);
+                            }
+         };
+                context.registerReceiver(broadcastReceiver, intentFilter);
+
+                    }
+     public interface DownloadCallback{
+         void afterDownload(String filename);
+     }
 }

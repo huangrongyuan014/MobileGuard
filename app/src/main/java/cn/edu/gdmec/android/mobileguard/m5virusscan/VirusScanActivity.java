@@ -13,7 +13,9 @@ import cn.edu.gdmec.android.mobileguard.m1home.utils.VersionUpdateUtils;
 import cn.edu.gdmec.android.mobileguard.m5virusscan.dao.AntiVirusDao;
          import java.io.File;
 import android.os.Environment;
- import java.io.FileOutputStream;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
  import java.io.InputStream;
 /**
  * Created by CC on 2017/11/19.
@@ -83,7 +85,7 @@ import cn.edu.gdmec.android.mobileguard.R;
                                           handler.sendEmptyMessage(0);
                                                     return;
                                                }
-                                            InputStream is = getAssets().open(dbname);
+                                      InputStream is = getAssets().open(dbname);
                                       if (fromPath.equals("")){
                                                                  is = getAssets().open(dbname);
                                                               }else{

@@ -87,25 +87,25 @@ public class AddBlackNumberActivity extends AppCompatActivity implements View.On
                                         blackContactInfo.blackType = type;
                                         if (mSmsCB.isChecked() & mTelCB.isChecked()){
                                                 blackContactInfo.mode=3;
-                                            }else if(mSmsCB.isChecked() & !mTelCB.isChecked()){
-                                                blackContactInfo.mode=2;
-                                            }else if(!mSmsCB.isChecked() & mTelCB.isChecked()){
-                                                blackContactInfo.mode=1;
-                                            }else {
-                                                Toast.makeText(this,"请选择拦截模式！",Toast.LENGTH_SHORT).show();
-                                                return;
-                                            }
-                                        if(!dao.IsNumberExist(blackContactInfo.phoneNumber)){
-                                                                    dao.add(blackContactInfo);
-                                            }else {
-                                                Toast.makeText(this,"该号码已经被添加至黑名单", Toast.LENGTH_SHORT).show();
-                                            }
-                                        finish();
-                                    }
-                                break;
-                        case R.id.add_fromcontact_btn:
-                                startActivityForResult(new Intent(this, ContactSelectActivity.class),0);
-                                break;
-                    }
-            }
- }
+        }else if(mSmsCB.isChecked() & !mTelCB.isChecked()){
+        blackContactInfo.mode=2;
+        }else if(!mSmsCB.isChecked() & mTelCB.isChecked()){
+        blackContactInfo.mode=1;
+        }else {
+        Toast.makeText(this,"请选择拦截模式！",Toast.LENGTH_SHORT).show();
+        return;
+        }
+        if(!dao.IsNumberExist(blackContactInfo.phoneNumber)){
+        dao.add(blackContactInfo);
+        }else {
+        Toast.makeText(this,"该号码已经被添加至黑名单", Toast.LENGTH_SHORT).show();
+        }
+        finish();
+        }
+        break;
+        case R.id.add_fromcontact_btn:
+        startActivityForResult(new Intent(this, ContactSelectActivity.class),0);
+        break;
+        }
+        }
+        }

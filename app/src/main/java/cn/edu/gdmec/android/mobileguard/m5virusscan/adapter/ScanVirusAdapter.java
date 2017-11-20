@@ -1,5 +1,8 @@
 package cn.edu.gdmec.android.mobileguard.m5virusscan.adapter;
 import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
  import android.widget.TextView;
 

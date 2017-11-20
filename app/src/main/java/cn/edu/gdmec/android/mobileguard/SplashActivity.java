@@ -1,5 +1,7 @@
 package cn.edu.gdmec.android.mobileguard;
 import cn.edu.gdmec.android.mobileguard.m1home.HomeActivity;
+
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -17,8 +19,8 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         mVersion = MyUtils.getVersion(getApplicationContext());
         mTvVersion = (TextView) findViewById(R.id.tv_splash_version);
-        mTvVersion.setText("版本号:"+mVersion);
-        VersionUpdateUtils.DownloadCallback downloadCallback = new VersionUpdateUtils.DownloadCallback() {
+        mTvVersion.setText("版本号:" + mVersion);
+        /*VersionUpdateUtils.DownloadCallback downloadCallback = new VersionUpdateUtils.DownloadCallback() {
              @Override
              public void afterDownload(String filename) {
                                 MyUtils.installApk(SplashActivity.this,"Mobileguard.apk");
@@ -29,9 +31,10 @@ public class SplashActivity extends AppCompatActivity {
             public void run(){
                 super.run();
                 versionUpdateUtils.getCloudVersion("http://android2017.duapp.com/updateinfo.html");
-            }.start();
-         //startActivity(new Intent (this, HomeActivity.class));
-                 //finish();
+            }.start();*/
+        startActivity(new Intent(this, HomeActivity.class));
+        finish();
 
 
+    }
 }

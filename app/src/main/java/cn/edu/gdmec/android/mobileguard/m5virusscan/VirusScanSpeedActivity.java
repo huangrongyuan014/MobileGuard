@@ -83,7 +83,7 @@ public class VirusScanSpeedActivity extends AppCompatActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_virus_scan_speed);
+        setContentView(R.layout.activity_virus_scan);
                 pm = getPackageManager();
                 mSP = getSharedPreferences("config",MODE_PRIVATE);
                 initView();

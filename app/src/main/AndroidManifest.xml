@@ -90,7 +90,10 @@
                         <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
                     </intent-filter>
                 </receiver>
-        <activity android:name=".m4appmanager.AppManagerActivity"></activity>
+        <activity android:name=".m4appmanager.AppManagerActivity"/>
+                <activity android:name=".m5virusscan.VirusScanSpeedActivity">
+                </activity>
+                <activity android:name=".m5virusscan.VirusScanActivity"></activity>
     </application>
 
 </manifest>

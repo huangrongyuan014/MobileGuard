@@ -23,6 +23,8 @@ import cn.edu.gdmec.android.mobileguard.m2theftguard.utils.MD5Utils;
 import cn.edu.gdmec.android.mobileguard.m3communicationguard.SecurityPhoneActivity;
 import cn.edu.gdmec.android.mobileguard.m4appmanager.AppManagerActivity;
 import cn.edu.gdmec.android.mobileguard.m5virusscan.VirusScanActivity;
+import cn.edu.gdmec.android.mobileguard.m6cleancache.CacheClearListActivity;
+
 /**
  * Created by asus-pc on 2017/11/7.
  */
@@ -61,6 +63,9 @@ public class HomeActivity extends AppCompatActivity {
                     case 3:
                                                startActivity(VirusScanActivity.class);
                                                break;
+                    case 4:
+                        startActivity(CacheClearListActivity.class);
+                        break;
                 }
             }
         });

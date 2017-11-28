@@ -31,6 +31,7 @@ public class VirusScanSpeedActivity extends AppCompatActivity implements View.On
     protected static final int SCAN_BEGIN = 100;
     protected static final int SCANNING = 101;
     protected static final int SCAN_FINISH = 102;
+    protected static final String VIRUSSCANAPI = "http://android2017.duapp.com/cloudvirusscan.php";
     private int total;
     private int process;
     private TextView mProcessTV;
@@ -68,6 +69,7 @@ public class VirusScanSpeedActivity extends AppCompatActivity implements View.On
                     break;
             }
         }
+    };
         private void saveScanTime(){
             SharedPreferences.Editor edit = mSP.edit();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -75,8 +77,8 @@ public class VirusScanSpeedActivity extends AppCompatActivity implements View.On
             currentTime = "上次查杀："+currentTime;
             edit.putString("lastVirusScan",currentTime);
             edit.commit();
-        }
-    };
+        };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +87,24 @@ public class VirusScanSpeedActivity extends AppCompatActivity implements View.On
         pm = getPackageManager();
         mSP = getSharedPreferences("config",MODE_PRIVATE);
         initView();
-        scanVirus();
+        Intent intent = getIntent();
+        boolean cloudscan = intent.getBooleanExtra("cloud",false);
+        if(cloudscan){
+            cloudScanVirus();
+        }else {
+            scanVirus();
+        }
+    }
+    private void cloudScanVirus(){
+        flag = true;
+        List<PackageInfo> installedPackages = pm
+                .getInstalledPackages(0);
+        total = installedPackages.size();
+
+        for (PackageInfo info : installedPackages){
+            String apkpath = info.applicationInfo.sourceDir;
+
+        }
     }
     private void scanVirus(){
         flag = true;

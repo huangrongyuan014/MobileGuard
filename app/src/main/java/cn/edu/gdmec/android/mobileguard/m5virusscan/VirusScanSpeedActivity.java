@@ -1,8 +1,10 @@
 package cn.edu.gdmec.android.mobileguard.m5virusscan;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +31,7 @@ import cn.edu.gdmec.android.mobileguard.m2theftguard.utils.MD5Utils;
 import cn.edu.gdmec.android.mobileguard.m5virusscan.adapter.ScanVirusAdapter;
 import cn.edu.gdmec.android.mobileguard.m5virusscan.dao.AntiVirusDao;
 import cn.edu.gdmec.android.mobileguard.m5virusscan.entity.ScanAppInfo;
+import cn.edu.gdmec.android.mobileguard.m5virusscan.utils.UrlClient;
 
 public class VirusScanSpeedActivity extends AppCompatActivity implements View.OnClickListener{
     protected static final int SCAN_BEGIN = 100;
@@ -103,9 +109,21 @@ public class VirusScanSpeedActivity extends AppCompatActivity implements View.On
 
         for (PackageInfo info : installedPackages){
             String apkpath = info.applicationInfo.sourceDir;
+            String md5info= cn.edu.gdmec.android.mobileguard.m5virusscan.utils.MD5Utils.getFileMd5(apkpath);
+            System.out.println(info.packageName+":"+md5info);
+            ScanAppInfo scanInfo = new ScanAppInfo();
+            scanInfo.packagename=info.packageName;
+            scanInfo.appName = info.applicationInfo.loadLabel(pm).toString();
+            scanInfo.appicon=info.applicationInfo.loadIcon(pm);
+            scanInfo.virusScanUrl=VIRUSSCANAPI;
+            scanInfo.md5info=md5info;
+            scanInfo.isVirus=false;
+            scanInfo.description="";
 
+            RestfulTask restfulTask = new RestfulTask();
+            restfulTask.execute(scanInfo);
         }
-    }
+        }
     private void scanVirus(){
         flag = true;
         isStop = false;
@@ -158,6 +176,49 @@ public class VirusScanSpeedActivity extends AppCompatActivity implements View.On
             };
         }.start();
     }
+    public class RestfulTask extends AsyncTask<ScanAppInfo,Integer,ScanAppInfo> {
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            mScanAppTV.setText("正在向云杀毒服务提交病毒特征码...");
+        }
+
+        @Override
+        protected ScanAppInfo doInBackground(ScanAppInfo... scanAppInfos) {
+            String apiResult= UrlClient.UrlPost(scanAppInfos[0].virusScanUrl,"{\"md5\":\""+scanAppInfos[0].md5info+"\"}");
+            try {
+                JSONObject jsonObject=new JSONObject(apiResult);
+                scanAppInfos[0].isVirus=jsonObject.getBoolean("isVirus");
+                scanAppInfos[0].description=jsonObject.getString("description");
+                return scanAppInfos[0];
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ScanAppInfo scanAppInfo){
+            super.onPostExecute(scanAppInfo);
+            if(!flag){
+                return;
+            }
+            mScanAppTV.setText("云杀毒引擎返回："+scanAppInfo.appName);
+            process++;
+            mProcessTV.setText((process*100/total)+"%");
+            mScanAppInfos.add(scanAppInfo);
+            adapter.notifyDataSetChanged();
+            mScanListView.setSelection(mScanAppInfos.size());
+
+            if(process==total){
+                mScanAppTV.setText("扫描完成！");
+                mScanningIcon.clearAnimation();
+                mCancleBtn.setBackgroundResource(R.drawable.scan_complete);
+                saveScanTime();
+            }
+        }
+    }
+
     private void initView(){
         findViewById(R.id.rl_titlebar).setBackgroundColor(getResources().getColor(R.color.light_blue));
         ImageView mLeftImgv = (ImageView) findViewById(R.id.imgv_leftbtn);

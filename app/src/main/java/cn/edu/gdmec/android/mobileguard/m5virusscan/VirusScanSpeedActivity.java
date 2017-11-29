@@ -37,7 +37,7 @@ public class VirusScanSpeedActivity extends AppCompatActivity implements View.On
     protected static final int SCAN_BEGIN = 100;
     protected static final int SCANNING = 101;
     protected static final int SCAN_FINISH = 102;
-    protected static final String VIRUSSCANAPI = "http://android2017.duapp.com/cloudvirusscan.php";
+    protected static final String VIRUSSCANAPI="http://android2017.duapp.com/cloudvirusscan.php";
     private int total;
     private int process;
     private TextView mProcessTV;
@@ -75,41 +75,41 @@ public class VirusScanSpeedActivity extends AppCompatActivity implements View.On
                     break;
             }
         }
-    };
-        private void saveScanTime(){
-            SharedPreferences.Editor edit = mSP.edit();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-            String currentTime = sdf.format(new Date());
-            currentTime = "上次查杀："+currentTime;
-            edit.putString("lastVirusScan",currentTime);
-            edit.commit();
-        };
 
+    };
+    private void saveScanTime(){
+        SharedPreferences.Editor edit = mSP.edit();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String currentTime = sdf.format(new Date());
+        currentTime = "上次查杀："+currentTime;
+        edit.putString("lastVirusScan",currentTime);
+        edit.commit();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_virus_scan);
+        setContentView(R.layout.activity_virus_scan_speed);
         pm = getPackageManager();
         mSP = getSharedPreferences("config",MODE_PRIVATE);
         initView();
         Intent intent = getIntent();
-        boolean cloudscan = intent.getBooleanExtra("cloud",false);
+        boolean cloudscan=intent.getBooleanExtra("cloud",false);
         if(cloudscan){
             cloudScanVirus();
         }else {
-            scanVirus();
+            scanVirus();;
         }
     }
-    private void cloudScanVirus(){
-        flag = true;
-        List<PackageInfo> installedPackages = pm
-                .getInstalledPackages(0);
-        total = installedPackages.size();
+
+    public void cloudScanVirus(){
+        flag=true;
+        List<PackageInfo> installedPackages=pm.getInstalledPackages(0);
+        total=installedPackages.size();
 
         for (PackageInfo info : installedPackages){
-            String apkpath = info.applicationInfo.sourceDir;
-            String md5info= cn.edu.gdmec.android.mobileguard.m5virusscan.utils.MD5Utils.getFileMd5(apkpath);
+            String apkpatn=info.applicationInfo.sourceDir;
+            String md5info= cn.edu.gdmec.android.mobileguard.m5virusscan.utils.MD5Utils.getFileMd5(apkpatn);
             System.out.println(info.packageName+":"+md5info);
             ScanAppInfo scanInfo = new ScanAppInfo();
             scanInfo.packagename=info.packageName;
@@ -119,11 +119,11 @@ public class VirusScanSpeedActivity extends AppCompatActivity implements View.On
             scanInfo.md5info=md5info;
             scanInfo.isVirus=false;
             scanInfo.description="";
-
             RestfulTask restfulTask = new RestfulTask();
             restfulTask.execute(scanInfo);
         }
-        }
+    }
+
     private void scanVirus(){
         flag = true;
         isStop = false;
@@ -176,7 +176,8 @@ public class VirusScanSpeedActivity extends AppCompatActivity implements View.On
             };
         }.start();
     }
-    public class RestfulTask extends AsyncTask<ScanAppInfo,Integer,ScanAppInfo> {
+
+    public class RestfulTask extends AsyncTask<ScanAppInfo,Integer,ScanAppInfo>{
         @Override
         protected void onPreExecute(){
             super.onPreExecute();

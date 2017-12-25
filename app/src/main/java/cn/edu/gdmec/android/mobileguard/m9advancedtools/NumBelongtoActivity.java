@@ -1,7 +1,7 @@
 package cn.edu.gdmec.android.mobileguard.m9advancedtools;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -18,6 +18,10 @@ import java.io.InputStream;
 
 import cn.edu.gdmec.android.mobileguard.R;
 import cn.edu.gdmec.android.mobileguard.m9advancedtools.db.dao.NumBelongtoDao;
+
+/**
+ * Created by asus-pc on 2017/12/24.
+ */
 
 public class NumBelongtoActivity extends AppCompatActivity implements View.OnClickListener{
     private EditText mNumET;

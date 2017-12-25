@@ -5,9 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
- * Created by Administrator on 2017/11/13.
+ * Created by war on 2017/11/19.
  */
-
 public class AntiVirusDao {
     private static Context context;
     private static String dbname;
@@ -26,18 +25,15 @@ public class AntiVirusDao {
         db.close();
         return desc;
     }
-    public String getVirusDbVersion(){
-        String dbVersion = null;
-        // 打开病毒数据库
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(
-                dbname, null,
-                SQLiteDatabase.OPEN_READONLY);
+    public String getVirusVersion(){
+        String virusVersion = "";
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(dbname, null, SQLiteDatabase.OPEN_READONLY);
         Cursor cursor = db.rawQuery("select major||'.'||minor||'.'||build from version",null);
         if (cursor.moveToNext()) {
-            dbVersion = cursor.getString(0);
+            virusVersion = cursor.getString(0);
         }
         cursor.close();
         db.close();
-        return dbVersion;
+        return virusVersion;
     }
 }

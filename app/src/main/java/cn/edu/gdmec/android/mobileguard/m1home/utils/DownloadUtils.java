@@ -5,6 +5,9 @@ import android.content.Context;
 import android.net.Uri;
 import android.webkit.MimeTypeMap;
 
+/**
+ * Created by asus-pc on 2017/11/7.
+ */
 
 public class DownloadUtils {
     public void downloadApk(String url,String targetFile,Context context){
@@ -20,6 +23,6 @@ public class DownloadUtils {
         request.setDestinationInExternalPublicDir("/download",targetFile);
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         long mTaskid = downloadManager.enqueue(request);
-    }
 
+    }
 }

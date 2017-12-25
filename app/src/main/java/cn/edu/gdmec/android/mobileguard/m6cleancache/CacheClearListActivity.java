@@ -6,11 +6,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageStats;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.format.Formatter;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +26,10 @@ import java.util.List;
 import cn.edu.gdmec.android.mobileguard.R;
 import cn.edu.gdmec.android.mobileguard.m6cleancache.adapter.CacheCleanAdapter;
 import cn.edu.gdmec.android.mobileguard.m6cleancache.entity.CacheInfo;
+
+/**
+ * Created by asus-pc on 2017/11/26.
+ */
 
 public class CacheClearListActivity extends AppCompatActivity implements View.OnClickListener{
     private static final int SCANNING = 100;
@@ -60,7 +64,7 @@ public class CacheClearListActivity extends AppCompatActivity implements View.On
                         mCacheBtn.setEnabled(true);
                     }else{
                         mCacheBtn.setEnabled(false);
-                        Toast.makeText(CacheClearListActivity.this,"您的手机洁净如新",Toast.LENGTH_LONG).show();
+                        Toast.makeText(CacheClearListActivity.this,"您的手机洁净如新", Toast.LENGTH_LONG).show();
                     }
                     break;
             }

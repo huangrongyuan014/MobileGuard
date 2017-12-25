@@ -11,7 +11,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import cn.edu.gdmec.android.mobileguard.m8trafficmonitor.db.dao.TrafficDao;
+import cn.edu.gdmec.android.mobileguard.m8trafficmonitor.bd.dao.TrafficDao;
+
+/**
+ * Created by student on 17/12/4.
+ */
 
 public class TrafficMonitoringService extends Service {
     private long mOldRxBytes;

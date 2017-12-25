@@ -8,6 +8,10 @@ import android.util.Log;
 import cn.edu.gdmec.android.mobileguard.m8trafficmonitor.service.TrafficMonitoringService;
 import cn.edu.gdmec.android.mobileguard.m8trafficmonitor.utils.SystemInfoUtils;
 
+/**
+ * Created by student on 17/12/4.
+ */
+
 public class BootCompleteReciever extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {

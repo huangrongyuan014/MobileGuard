@@ -14,10 +14,10 @@ import cn.edu.gdmec.android.mobileguard.R;
 import cn.edu.gdmec.android.mobileguard.m6cleancache.entity.CacheInfo;
 
 /**
- * Created by asus-pc on 2017/11/26.
+ * Created by Administrator on 2017/11/19.
  */
 
-public class CacheCleanAdapter extends BaseAdapter{
+public class CacheCleanAdapter extends BaseAdapter {
     private Context context;
     private List<CacheInfo> cacheInfos;
 

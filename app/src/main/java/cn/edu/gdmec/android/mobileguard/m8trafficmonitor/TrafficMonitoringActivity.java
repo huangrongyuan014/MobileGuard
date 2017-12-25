@@ -19,11 +19,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.text.SimpleDateFormat;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import cn.edu.gdmec.android.mobileguard.R;
-import cn.edu.gdmec.android.mobileguard.m8trafficmonitor.bd.dao.TrafficDao;
+import cn.edu.gdmec.android.mobileguard.m8trafficmonitor.db.dao.TrafficDao;
 import cn.edu.gdmec.android.mobileguard.m8trafficmonitor.service.TrafficMonitoringService;
 import cn.edu.gdmec.android.mobileguard.m8trafficmonitor.utils.SystemInfoUtils;
 

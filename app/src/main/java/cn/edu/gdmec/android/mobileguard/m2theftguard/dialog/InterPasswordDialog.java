@@ -12,11 +12,7 @@ import android.widget.TextView;
 
 import cn.edu.gdmec.android.mobileguard.R;
 
-/**
- * Created by asus-pc on 2017/11/7.
- */
-
-public class InterPasswordDialog extends Dialog implements View.OnClickListener {
+public class InterPasswordDialog extends Dialog implements View.OnClickListener{
     private TextView mTitleTV;
     private EditText mInterET;
     private Button mOKBtn;
@@ -26,33 +22,30 @@ public class InterPasswordDialog extends Dialog implements View.OnClickListener 
 
     public InterPasswordDialog(@NonNull Context context) {
         super(context, R.style.dialog_custom);
-        this.context = context;
+        this.context=context;
     }
-
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState){
         setContentView(R.layout.inter_password_dialog);
         super.onCreate(savedInstanceState);
         initView();
     }
-
-    private void initView() {
+    private void initView(){
         mTitleTV = (TextView) findViewById(R.id.tv_interpwd_title);
         mInterET = (EditText) findViewById(R.id.et_inter_password);
-        mOKBtn = (Button) findViewById(R.id.btn_comfirm);
-        mCancleBtn = (Button) findViewById(R.id.btn_dismiss);
-        mOKBtn.setOnClickListener(this);
-        mCancleBtn.setOnClickListener(this);
+        findViewById(R.id.btn_confirm).setOnClickListener(this);
+        findViewById(R.id.btn_dismiss).setOnClickListener(this);
     }
-
-    public void setTitle(String title) {
-        if (!TextUtils.isEmpty(title)) {
+    public void setTitle(String title){
+        if(!TextUtils.isEmpty(title)){
             mTitleTV.setText(title);
         }
     }
 
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_comfirm:
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_confirm:
                 myCallBack.confirm();
                 break;
             case R.id.btn_dismiss:
@@ -60,18 +53,15 @@ public class InterPasswordDialog extends Dialog implements View.OnClickListener 
                 break;
         }
     }
-
-    public String getPassword() {
+    public String getPassword(){
         return mInterET.getText().toString();
     }
 
-    public void setCallBack(MyCallBack myCallBack) {
-        this.myCallBack = myCallBack;
+    public void setCallBack(MyCallBack myCallBack){
+        this.myCallBack=myCallBack;
     }
-
-    public interface MyCallBack {
+    public interface MyCallBack{
         void confirm();
-
         void cancle();
     }
 }

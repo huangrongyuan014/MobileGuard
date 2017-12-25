@@ -1,7 +1,7 @@
 package cn.edu.gdmec.android.mobileguard.m2theftguard.entity;
 
 /**
- * Created by asus-pc on 2017/11/7.
+ * Created by Administrator on 2017/10/19 0019.
  */
 
 public class ContactInfo {

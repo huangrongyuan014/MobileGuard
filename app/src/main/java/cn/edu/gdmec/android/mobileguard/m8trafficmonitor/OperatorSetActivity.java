@@ -2,8 +2,8 @@ package cn.edu.gdmec.android.mobileguard.m8trafficmonitor;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -11,10 +11,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import cn.edu.gdmec.android.mobileguard.R;
-
-/**
- * Created by student on 17/12/4.
- */
 
 public class OperatorSetActivity extends AppCompatActivity implements View.OnClickListener{
     private Spinner mSelectSP;

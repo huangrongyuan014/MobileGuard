@@ -12,11 +12,9 @@ import java.util.List;
 import cn.edu.gdmec.android.mobileguard.App;
 import cn.edu.gdmec.android.mobileguard.m9advancedtools.db.AppLockOpenHelper;
 
-/**
- * Created by asus-pc on 2017/12/24.
- */
-
+/** 程序锁数据库操作逻辑类 */
 public class AppLockDao {
+
     private Context context;
     private AppLockOpenHelper openHelper;
     private Uri uri = Uri.parse(App.APPLOCK_CONTENT_URI);

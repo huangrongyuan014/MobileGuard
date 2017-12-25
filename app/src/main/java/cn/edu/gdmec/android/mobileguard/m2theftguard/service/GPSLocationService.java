@@ -15,35 +15,35 @@ import android.support.v4.app.ActivityCompat;
 import android.telephony.SmsManager;
 
 /**
- * Created by asus-pc on 2017/11/7.
+ * Created by Administrator on 2017/10/25 0025.
  */
 
 public class GPSLocationService extends Service {
     private LocationManager lm;
     private MyListener listener;
 
+    @Override
     public IBinder onBind(Intent intent){
         return null;
     }
-    public void onCreate(){
+
+    @Override
+    public void onCreate() {
         super.onCreate();
         lm = (LocationManager) getSystemService(LOCATION_SERVICE);
         listener = new MyListener();
         Criteria criteria = new Criteria();
-        criteria.setAccuracy(criteria.ACCURACY_FINE);
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
         criteria.setCostAllowed(true);
         String name = lm.getBestProvider(criteria,true);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
             return;
         }
         lm.requestLocationUpdates(name,0,0,listener);
     }
-    private class MyListener implements LocationListener {
-        public void onLocationChanged(Location location){
+    private class MyListener implements LocationListener{
+        @Override
+        public void onLocationChanged(Location location) {
             StringBuilder sb = new StringBuilder();
             sb.append("accuracy:"+location.getAccuracy()+"\n");
             sb.append("speed:"+location.getSpeed()+"\n");
@@ -55,17 +55,23 @@ public class GPSLocationService extends Service {
             SmsManager.getDefault().sendTextMessage(safenumber,null,result,null,null);
             stopSelf();
         }
-        public void onStatusChanged(String provider,int status,Bundle extras){
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras){
 
         }
-        public void onProviderEnabled(String provider){
+
+        @Override
+        public void onProviderEnabled(String provider) {
 
         }
-        public void onProviderDisabled(String provider){
 
+        @Override
+        public void onProviderDisabled(String provider) {
         }
     }
-    public void onDestroy(){
+
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         lm.removeUpdates(listener);
         listener = null;

@@ -3,7 +3,7 @@ package cn.edu.gdmec.android.mobileguard.m4appmanager.utils;
 import android.content.Context;
 
 /**
- * Created by CC on 2017/11/12.
+ * Created by Administrator on 2017/11/7.
  */
 
 public class DensityUtil {
@@ -25,4 +25,5 @@ public class DensityUtil {
         }
         return (int) pxValue;
     }
+
 }

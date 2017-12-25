@@ -13,14 +13,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.lang.reflect.Method;
 import java.util.Random;
 
 import cn.edu.gdmec.android.mobileguard.R;
 
 /**
- * Created by asus-pc on 2017/11/26.
+ * Created by Administrator on 2017/11/19.
  */
 
 public class CleanCacheActivity extends AppCompatActivity implements View.OnClickListener{
@@ -135,7 +134,7 @@ public class CleanCacheActivity extends AppCompatActivity implements View.OnClic
                 return;
             }
         }
-        Toast.makeText(this,"清理完毕", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"清理完毕",Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onClick(View view) {

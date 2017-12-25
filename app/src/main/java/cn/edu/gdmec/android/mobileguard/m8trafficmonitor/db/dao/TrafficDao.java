@@ -1,4 +1,4 @@
-package cn.edu.gdmec.android.mobileguard.m8trafficmonitor.bd.dao;
+package cn.edu.gdmec.android.mobileguard.m8trafficmonitor.db.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,11 +10,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import cn.edu.gdmec.android.mobileguard.m8trafficmonitor.bd.TrafficOpenHelper;
+import cn.edu.gdmec.android.mobileguard.m8trafficmonitor.db.TrafficOpenHelper;
 
 /**
- * Created by student on 17/12/4.
+ * Created by Administrator on 2017/11/29.
  */
+
 public class TrafficDao {
     private TrafficOpenHelper helper;
     public TrafficDao(Context context) {

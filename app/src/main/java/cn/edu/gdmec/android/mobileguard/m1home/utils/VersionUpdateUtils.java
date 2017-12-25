@@ -105,10 +105,10 @@ public class VersionUpdateUtils {
                 String result = EntityUtils.toString(httpEntity, "utf-8");
                 JSONObject jsonObject = new JSONObject(result);
                 versionEntity = new VersionEntity();
-                versionEntity.versioncode = jsonObject.getString("code");
+                versionEntity.versionCode = jsonObject.getString("code");
                 versionEntity.description = jsonObject.getString("des");
                 versionEntity.apkurl = jsonObject.getString("apkurl");
-                if (!mVersion.equals(versionEntity.versioncode)) {
+                if (!mVersion.equals(versionEntity.versionCode)) {
                     handler.sendEmptyMessage(MESSAGE_SHOW_DIALOG);
                 }
             }
@@ -120,7 +120,7 @@ public class VersionUpdateUtils {
     }
     private void showUpdateDialog(final VersionEntity versionEntity){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("检查到新版本："+versionEntity.versioncode);
+        builder.setTitle("检查到新版本："+versionEntity.versionCode);
         builder.setMessage(versionEntity.description);
         builder.setCancelable(false);
         builder.setIcon(R.mipmap.ic_launcher_round);
@@ -128,7 +128,7 @@ public class VersionUpdateUtils {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 downloadNewApk(versionEntity.apkurl);
-                enterHome();
+                //enterHome();
             }
         });
         builder.setNegativeButton("暂不升级", new DialogInterface.OnClickListener() {

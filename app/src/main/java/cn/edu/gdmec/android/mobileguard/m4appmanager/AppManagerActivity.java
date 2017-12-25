@@ -1,15 +1,14 @@
 package cn.edu.gdmec.android.mobileguard.m4appmanager;
 
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.text.format.Formatter;
 import android.view.View;
 import android.widget.AbsListView;
@@ -22,13 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.edu.gdmec.android.mobileguard.R;
-import cn.edu.gdmec.android.mobileguard.m4appmanager.dadpter.AppManagerAdapter;
+import cn.edu.gdmec.android.mobileguard.m4appmanager.adapter.AppManagerAdapter;
 import cn.edu.gdmec.android.mobileguard.m4appmanager.entity.AppInfo;
 import cn.edu.gdmec.android.mobileguard.m4appmanager.utils.AppInfoParser;
-
-/**
- * Created by CC on 2017/11/12.
- */
 
 public class AppManagerActivity extends AppCompatActivity implements View.OnClickListener{
     private TextView mPhoneMemoryTV;
@@ -39,7 +34,6 @@ public class AppManagerActivity extends AppCompatActivity implements View.OnClic
     private List<AppInfo> systemAppInfos = new ArrayList<AppInfo>();
     private AppManagerAdapter adapter;
     private TextView mAppNumTV;
-    private TextView mAboutBTN;
     private UninstallRececiver receciver;
 
     private Handler mHandler = new Handler(){
@@ -105,7 +99,6 @@ public class AppManagerActivity extends AppCompatActivity implements View.OnClic
         mSDMemoryTV = (TextView) findViewById(R.id.tv_sdmemory_appmanager);
         mAppNumTV = (TextView) findViewById(R.id.tv_appnumber);
         mListView = (ListView) findViewById(R.id.lv_appmanager);
-        mAboutBTN = (TextView) findViewById(R.id.tv_aboutapp);
         getMemoryFromPhone();
         initData();
         initListener();

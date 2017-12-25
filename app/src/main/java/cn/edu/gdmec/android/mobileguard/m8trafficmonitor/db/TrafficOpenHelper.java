@@ -1,11 +1,11 @@
-package cn.edu.gdmec.android.mobileguard.m8trafficmonitor.bd;
+package cn.edu.gdmec.android.mobileguard.m8trafficmonitor.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by student on 17/12/4.
+ * Created by Administrator on 2017/11/29.
  */
 
 public class TrafficOpenHelper extends SQLiteOpenHelper {

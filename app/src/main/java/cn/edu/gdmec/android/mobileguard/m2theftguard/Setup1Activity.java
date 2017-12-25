@@ -6,11 +6,7 @@ import android.widget.Toast;
 
 import cn.edu.gdmec.android.mobileguard.R;
 
-/**
- * Created by asus-pc on 2017/11/7.
- */
-
-public class Setup1Activity extends BaseSetUpActivity {
+public class Setup1Activity extends BaseSetupActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,12 +15,13 @@ public class Setup1Activity extends BaseSetUpActivity {
         ((RadioButton) findViewById(R.id.rb_first)).setChecked(true);
     }
 
-    public void showNext(){startActivityAndFinishSelf(Setup2Activity.class);
+    @Override
+    public void showNext(){
+        startActivityAndFinishSelf(Setup2Activity.class);
     }
 
-
-
+    @Override
     public void showPre(){
-        Toast.makeText(this, "当前页面已经是第一页", Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"当前页面已经是第一页",Toast.LENGTH_LONG).show();
     }
 }

@@ -1,17 +1,13 @@
 package cn.edu.gdmec.android.mobileguard.m9advancedtools;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import cn.edu.gdmec.android.mobileguard.R;
-
-/**
- * Created by asus-pc on 2017/12/24.
- */
 
 public class AdvancedToolsActivity extends AppCompatActivity implements View.OnClickListener{
 

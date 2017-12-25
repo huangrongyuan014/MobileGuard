@@ -12,7 +12,7 @@ import android.widget.TextView;
 import cn.edu.gdmec.android.mobileguard.R;
 
 /**
- * Created by asus-pc on 2017/12/24.
+ * Created by Administrator on 2017/12/3.
  */
 
 public class AdvancedToolsView extends RelativeLayout {
@@ -25,14 +25,14 @@ public class AdvancedToolsView extends RelativeLayout {
         init(context);
 
     }
-    public AdvancedToolsView(Context context, AttributeSet attrs, int defStyle){
+    public AdvancedToolsView(Context context,AttributeSet attrs,int defStyle){
         super(context,attrs,defStyle);
         init(context);
     }
 
     public AdvancedToolsView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.AdvancedToolsView);
+        TypedArray mTypedArray = context.obtainStyledAttributes(attrs,R.styleable.AdvancedToolsView);
         desc = mTypedArray.getString(R.styleable.AdvancedToolsView_desc);
         drawable = mTypedArray.getDrawable(R.styleable.AdvancedToolsView_android_src);
         mTypedArray.recycle();

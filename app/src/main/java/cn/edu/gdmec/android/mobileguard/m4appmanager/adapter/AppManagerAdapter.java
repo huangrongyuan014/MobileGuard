@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import java.util.List;
 
 import cn.edu.gdmec.android.mobileguard.R;
